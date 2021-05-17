@@ -6,9 +6,12 @@ export default function Exchange() {
   const outputRef = React.createRef();
   const outputValRef = React.createRef();
   const errorRef = React.createRef();
+  const counterRef = React.createRef();
   const isError = false;
+  let counter = 1;
   let changed = 1;
   const inputValRef = React.createRef();
+  const animateRef = React.createRef();
   const exchangeValue = () => {
     const input = currency.find(
       (curr) => curr.code == inputRef.current.value
@@ -24,10 +27,9 @@ export default function Exchange() {
     if (outputValRef.current.value === "NaN") {
       errorRef.current.classList.remove("hidden");
       errorRef.current.classList.add("show");
-    }
-    else {
-        errorRef.current.classList.add("hidden");
-        errorRef.current.classList.remove("show");
+    } else {
+      errorRef.current.classList.add("hidden");
+      errorRef.current.classList.remove("show");
     }
   };
   const changeConverterInputToOutput = () => {
@@ -40,8 +42,40 @@ export default function Exchange() {
     outputRef.current.value = output;
     exchangeValue();
   };
+
+  const onDragHandler = (e) => {
+    //   console.log();
+    counterRef.current.classList.add("dragger");
+    if (e.pageX > 450) {
+      counter += 1.5;
+      inputValRef.current.value = counter;
+    } else if (inputValRef.current.value !== "1" && e.pageX < 450) {
+      counter -= 1.5;
+      inputValRef.current.value = counter;
+
+      if (counter < "0") {
+        counter = 0;
+        inputValRef.current.value = counter;
+      }
+    }
+  };
+
+  const disCounter = () => {
+    if (counter !== 0) {
+      counter -= 1;
+      inputValRef.current.value = counter;
+      exchangeValue();
+    }
+  };
+
+  const upCounter = () => {
+    counter += 1;
+    inputValRef.current.value = counter;
+    exchangeValue();
+  };
+
   return (
-    <div>
+    <div ref={animateRef} class="opacity">
       <div
         className="p-5 bg-white"
         style={{
@@ -56,7 +90,10 @@ export default function Exchange() {
             <input
               ref={inputValRef}
               defaultValue={1}
-            //   type='number' // Əgər silsəz şərt yoxlanılır
+              onChange={(e) => {
+                counter = e.target.value;
+              }}
+              //   type='number' // Əgər silsəz şərt yoxlanılır
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   exchangeValue();
@@ -69,12 +106,41 @@ export default function Exchange() {
               ))}
             </select>
           </label>
-          <img
-            src={process.env.PUBLIC_URL + "/imgs/switch.png"}
-            className="mb-3"
-            style={{ cursor: "pointer" }}
-            onClick={changeConverterInputToOutput}
-          />
+          <div
+            classList="img-side"
+            style={{ position: "relative", marginTop: "20px" }}
+          >
+            <span
+              onClick={disCounter}
+              style={{
+                position: "absolute",
+                top: "-15px",
+                fontSize: "25px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </span>
+            <img src={process.env.PUBLIC_URL + "./line.png"} className="mb-3" />
+            <img
+              src={process.env.PUBLIC_URL + "./imgs/buttonCounter.png"}
+              className="counter"
+              onClick={changeConverterInputToOutput}
+              ref={counterRef}
+              onDrag={(e) => onDragHandler(e)}
+              onDragEnd={() => {
+                counterRef.current.classList.remove("dragger");
+                exchangeValue();
+              }}
+            />
+
+            <span
+            onClick={upCounter}
+              style={{ position: "absolute", top: "-15px", fontSize: "25px", cursor: 'pointer' }}
+            >
+              +
+            </span>
+          </div>
           <label>
             <span>To</span> <br />
             <input
@@ -82,6 +148,7 @@ export default function Exchange() {
               ref={outputValRef}
               defaultValue={changed}
               disabled
+              min={0}
             />
             <select
               onChange={(e) => {
@@ -96,9 +163,8 @@ export default function Exchange() {
             </select>
           </label>
           <button onClick={exchangeValue}>Exchange</button>
-
           <span ref={errorRef} className="text-danger mt-5 hidden">
-            Zəhmət olmasa rəqəm daxil edin!
+            Please write only numbers
           </span>
         </div>
       </div>

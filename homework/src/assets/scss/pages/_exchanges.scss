@@ -65,6 +65,13 @@
 }
 
 
+.counter {
+    position: absolute;
+    top: -26px;
+    left: 35%;
+}
+
+
 .hidden {
     visibility: hidden;
     opacity: 0;
@@ -73,4 +80,8 @@
 
 .show {
     transition: all .5s;
+}
+
+.dragger {
+    opacity: 0;
 }
