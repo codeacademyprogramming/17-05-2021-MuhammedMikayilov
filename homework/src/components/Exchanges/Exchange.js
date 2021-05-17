@@ -4,29 +4,20 @@ import currency from "../../rates.json"
 
 const inputRef = React.createRef();
 const outputRef = React.createRef();
-
 const outputValRef = React.createRef();
-
 let changed = 1;
-
 const inputValRef = React.createRef();
-
 const exchangeValue = () => {
     currency.forEach((item)=>{
-        let inputVal;
-        let outputVal;
-        if(inputRef.current.value === item.code) {
-            inputVal = item.value + " " + item.code
-            changed = item.value * inputValRef.current.value;
-            Math.floor(outputValRef.current.value = changed);
-        }
         if(outputRef.current.value === item.code) {
-            outputVal = item.value + " " + item.code
-            console.log("output", outputVal);
+            outputValRef.current.value = item.value
+        }
+        if(inputRef.current.value === item.code) {
+            changed = item.value * inputValRef.current.value / outputValRef.current.value;
+            outputValRef.current.value = changed.toFixed(2);
         }
     })
 }
-
 export default function Exchange() {
     return (
         <div>
