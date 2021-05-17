@@ -1,0 +1,65 @@
+.exchange {
+  background: linear-gradient(
+      136.32deg,
+      rgba(58, 60, 64, 0.4) 1.49%,
+      rgba(255, 255, 255, 0.304174) 97.46%
+    ),
+    #f1f3f6;
+  height: 500px;
+  margin-top: 10%;
+  box-shadow: -10px -10px 15px #ffffff,
+    10px 10px 15px rgba(202, 206, 220, 0.623771);
+  background-blend-mode: soft-light, normal;
+  flex-direction: column;
+  padding: 50px;
+
+  input {
+    width: 60%;
+    margin-right: 20px;
+    background: rgba(255, 255, 255, 0.760435);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    box-sizing: border-box;
+    border-radius: 5px;
+    outline: none;
+    padding: 5px 15px;
+  }
+
+  .output {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  select {
+    background: linear-gradient(
+        136.32deg,
+        rgba(58, 60, 64, 0.4) 1.49%,
+        rgba(255, 255, 255, 0.304174) 97.46%
+      ),
+      #ffffff;
+    background-blend-mode: soft-light, normal;
+    box-shadow: -7px -7px 10px rgba(255, 255, 255, 0.5),
+      7px 7px 10px rgba(202, 206, 220, 0.31);
+    border-radius: 10px;
+    border: none;
+    padding: 5px 2px;
+  }
+
+  button {
+    width: 100%;
+    color: #fff;
+    margin-top: 30%;
+    background: linear-gradient(
+        136.32deg,
+        rgba(58, 60, 64, 0.4) 1.49%,
+        rgba(255, 255, 255, 0.304174) 97.46%
+      ),
+      #1654f0;
+    background-blend-mode: soft-light, normal;
+    box-shadow: -7px -7px 10px rgba(255, 255, 255, 0.5),
+      7px 7px 10px rgba(119, 148, 214, 0.538134);
+    border-radius: 10px;
+    padding: 10px;
+  }
+}
