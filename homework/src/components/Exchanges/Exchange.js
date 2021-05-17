@@ -1,25 +1,33 @@
 import React from "react";
 import currency from "../../rates.json";
-export default function Exchange() {
 
+export default function Exchange() {
   const inputRef = React.createRef();
   const outputRef = React.createRef();
   const outputValRef = React.createRef();
   let changed = 1;
   const inputValRef = React.createRef();
-  const exchangeValue = () => {
-    currency.forEach((item) => {
-      if (outputRef.current.value === item.code) {
-        outputValRef.current.value = item.value;
-      }
-      if (inputRef.current.value === item.code) {
-        changed =
-          (item.value * inputValRef.current.value) / outputValRef.current.value;
-        outputValRef.current.value = changed.toFixed(2);
-      }
-    });
+  const getInputValues = (fromInp, toOutp) => {
+    const fromInput = currency.find((curr) => curr.code === fromInp).value;
+    const toOutput = currency.find((curr) => curr.code === toOutp).value;
+
+    const input = inputValRef.current.value;
+
+    return (fromInp / toOutput) * input;
   };
 
+  const exchangeValue = () => {
+    const input = currency.find(
+      (curr) => curr.code == inputRef.current.value
+    ).value;
+    const output = currency.find(
+      (curr) => curr.code == outputRef.current.value
+    ).value;
+    outputValRef.current.value = (
+      (input * inputValRef.current.value) /
+      output
+    ).toFixed(4);
+  };
   return (
     <div>
       <div
