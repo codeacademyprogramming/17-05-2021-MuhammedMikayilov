@@ -5,9 +5,10 @@ export default function Exchange() {
   const inputRef = React.createRef();
   const outputRef = React.createRef();
   const outputValRef = React.createRef();
+  const errorRef = React.createRef();
+  const isError = false;
   let changed = 1;
   const inputValRef = React.createRef();
-
   const exchangeValue = () => {
     const input = currency.find(
       (curr) => curr.code == inputRef.current.value
@@ -19,9 +20,17 @@ export default function Exchange() {
       (input * inputValRef.current.value) /
       output
     ).toFixed(4);
-  };
 
-  const changeConverterInputToOutput = ()=> {
+    if (outputValRef.current.value === "NaN") {
+      errorRef.current.classList.remove("hidden");
+      errorRef.current.classList.add("show");
+    }
+    else {
+        errorRef.current.classList.add("hidden");
+        errorRef.current.classList.remove("show");
+    }
+  };
+  const changeConverterInputToOutput = () => {
     let input = inputRef.current.value;
     let output = outputRef.current.value;
     let inputToOutput = input;
@@ -29,9 +38,8 @@ export default function Exchange() {
     output = inputToOutput;
     inputRef.current.value = input;
     outputRef.current.value = output;
-    exchangeValue()
-  }
-
+    exchangeValue();
+  };
   return (
     <div>
       <div
@@ -45,7 +53,16 @@ export default function Exchange() {
         <div className="exchange d-flex justify-content-center align-items-center">
           <label className="mb-4">
             <span className="d-block">From</span>
-            <input ref={inputValRef} defaultValue={1} />
+            <input
+              ref={inputValRef}
+              defaultValue={1}
+            //   type='number' // Əgər silsəz şərt yoxlanılır
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  exchangeValue();
+                }
+              }}
+            />
             <select ref={inputRef} defaultValue="USD">
               {currency.map((item, key) => (
                 <option key={key}>{item.code}</option>
@@ -55,7 +72,7 @@ export default function Exchange() {
           <img
             src={process.env.PUBLIC_URL + "/imgs/switch.png"}
             className="mb-3"
-            style={{cursor: 'pointer'}}
+            style={{ cursor: "pointer" }}
             onClick={changeConverterInputToOutput}
           />
           <label>
@@ -79,6 +96,10 @@ export default function Exchange() {
             </select>
           </label>
           <button onClick={exchangeValue}>Exchange</button>
+
+          <span ref={errorRef} className="text-danger mt-5 hidden">
+            Zəhmət olmasa rəqəm daxil edin!
+          </span>
         </div>
       </div>
     </div>
