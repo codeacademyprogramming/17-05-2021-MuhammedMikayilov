@@ -57,8 +57,12 @@ export default function Exchange() {
 
     counterRef.current.classList.add("dragger");
     if (e.pageX > 700) {
+      let inputValNum = Number(inputValRef.current.value)
+    //   alert(counter)
+    console.log(counter);
       counter += 1.5;
-      inputValRef.current.value = counter;
+      inputValNum = counter;
+      inputValRef.current.value = inputValNum
     } else if (inputValRef.current.value !== "1" && e.pageX < 700) {
       counter -= 1.5;
       inputValRef.current.value = counter;
@@ -102,9 +106,15 @@ export default function Exchange() {
             <span className="d-block">From</span>
             <input
               ref={inputValRef}
+              onFocus={(e)=>{
+                //   Number(inputValRef.cur)
+                Number(inputValRef.current.value)
+                console.log('inp',inputValRef.current.value);
+                console.log('ee',e.target.value);
+              }}
               defaultValue={1}
               onChange={(e) => {
-                counter = e.target.value;
+                Number(inputValRef.current.value)
               }}
               //   type='number' // Əgər silsəz şərt yoxlanılır
               onKeyDown={(e) => {
