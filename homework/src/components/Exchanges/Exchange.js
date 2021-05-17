@@ -44,9 +44,10 @@ export default function Exchange() {
   };
 
   const onDragHandler = (e) => {
-    //   console.log();
+      console.log(e.pageX);
+
     counterRef.current.classList.add("dragger");
-    if (e.pageX > 450 && e.pageX<650) {
+    if (e.pageX > 450) {
       counter += 1.5;
       inputValRef.current.value = counter;
     } else if (inputValRef.current.value !== "1" && e.pageX < 450) {
@@ -57,11 +58,6 @@ export default function Exchange() {
         counter = 0;
         inputValRef.current.value = counter;
       }
-    }
-
-    if (e.pageX>650) {
-        console.log("Limit");
-
     }
   };
 
@@ -129,6 +125,7 @@ export default function Exchange() {
             <img src={process.env.PUBLIC_URL + "./line.png"} className="mb-3" />
             <img
               src={process.env.PUBLIC_URL + "./imgs/buttonCounter.png"}
+              style={{cursor: 'pointer'}}
               className="counter"
               onClick={changeConverterInputToOutput}
               ref={counterRef}
