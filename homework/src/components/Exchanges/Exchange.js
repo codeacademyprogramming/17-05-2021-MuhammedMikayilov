@@ -7,14 +7,6 @@ export default function Exchange() {
   const outputValRef = React.createRef();
   let changed = 1;
   const inputValRef = React.createRef();
-  const getInputValues = (fromInp, toOutp) => {
-    const fromInput = currency.find((curr) => curr.code === fromInp).value;
-    const toOutput = currency.find((curr) => curr.code === toOutp).value;
-
-    const input = inputValRef.current.value;
-
-    return (fromInp / toOutput) * input;
-  };
 
   const exchangeValue = () => {
     const input = currency.find(
@@ -28,6 +20,18 @@ export default function Exchange() {
       output
     ).toFixed(4);
   };
+
+  const changeConverterInputToOutput = ()=> {
+    let input = inputRef.current.value;
+    let output = outputRef.current.value;
+    let inputToOutput = input;
+    input = output;
+    output = inputToOutput;
+    inputRef.current.value = input;
+    outputRef.current.value = output;
+    exchangeValue()
+  }
+
   return (
     <div>
       <div
@@ -51,6 +55,8 @@ export default function Exchange() {
           <img
             src={process.env.PUBLIC_URL + "/imgs/switch.png"}
             className="mb-3"
+            style={{cursor: 'pointer'}}
+            onClick={changeConverterInputToOutput}
           />
           <label>
             <span>To</span> <br />
