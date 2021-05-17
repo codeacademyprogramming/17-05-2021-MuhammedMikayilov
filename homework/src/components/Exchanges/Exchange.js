@@ -6,6 +6,7 @@ export default function Exchange() {
   const outputRef = React.createRef();
   const outputValRef = React.createRef();
   const errorRef = React.createRef();
+  const alertMessageRef = React.createRef();
   const counterRef = React.createRef();
   const isError = false;
   let counter = 1;
@@ -33,6 +34,14 @@ export default function Exchange() {
     }
   };
   const changeConverterInputToOutput = () => {
+
+        alertMessageRef.current.classList.remove("hidden");
+        alertMessageRef.current.classList.add("show");
+    setTimeout(()=> {
+        alertMessageRef.current.classList.add("hidden");
+        alertMessageRef.current.classList.remove("show");
+    }, 2200)
+
     let input = inputRef.current.value;
     let output = outputRef.current.value;
     let inputToOutput = input;
@@ -44,13 +53,13 @@ export default function Exchange() {
   };
 
   const onDragHandler = (e) => {
-      console.log(e.pageX);
+      console.log(e);
 
     counterRef.current.classList.add("dragger");
-    if (e.pageX > 450) {
+    if (e.pageX > 700) {
       counter += 1.5;
       inputValRef.current.value = counter;
-    } else if (inputValRef.current.value !== "1" && e.pageX < 450) {
+    } else if (inputValRef.current.value !== "1" && e.pageX < 700) {
       counter -= 1.5;
       inputValRef.current.value = counter;
 
@@ -86,6 +95,9 @@ export default function Exchange() {
       >
         <img src={process.env.PUBLIC_URL + "/imgs/navbarIcon.png"} />
         <div className="exchange d-flex justify-content-center align-items-center">
+        <span ref={alertMessageRef} className="text-success my-5 hidden">
+            Change Valuta
+          </span>
           <label className="mb-4">
             <span className="d-block">From</span>
             <input
